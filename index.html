@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shreya Dave | Product Strategist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+ <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+  font-family: 'Manrope', sans-serif;
+  scroll-behavior: smooth;
+  color: #1f2937;
+}
+    .section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.bg-melon {
+  background-color: #fcd34d;
+}
+.text-melon {
+  color: #fcd34d;
+}
+.hover\:text-melon:hover {
+  color: #fcd34d;
+}
+.hover\:bg-melon:hover {
+  background-color: #fcd34d;
+}
+    .bg-sage {
+      background-color: #87BCBF;
+    }
+    .hover\:bg-sage-dark:hover {
+      background-color: #6BA8AB;
+    }
+    .text-sage {
+      color: #87BCBF;
+    }
+    .hover\:text-sage-dark:hover {
+      color: #6BA8AB;
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;	
+      bottom: -2px;
+      left: 0;
+      background-color: #87BCBF;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover:after {
+      width: 100%;
+    }
+   .project-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+    .testimonial-card {
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+    }
+@keyframes bgFade {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.bg-animate {
+  background-size: 200% 200%;
+  animation: bgFade 10s ease infinite alternate;
+}
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 5s ease-in-out infinite;
+}
+  </style>
+</head>
+<body class="bg-white">
+
+<!-- Floating Bird Element -->
+<div id="bird" class="fixed top-10 left-10 z-40 animate-bounce-slow">
+  <img src="images/bird.svg" alt="Bird" class="w-12 h-12">
+</div>
+
+<!-- Top thin bar (NEW) -->
+<div id="topBar" class="fixed top-0 w-full h-2 bg-[#4C9A92] z-50 transition-colors duration-500 ease-in-out"></div>
+
+<!-- Main Navbar (REPLACEMENT) -->
+<nav id="mainNav" class="fixed top-2 w-full bg-sage bg-opacity-100 z-40 shadow-md transition-colors duration-500 ease-in-out pt-4">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="#" class="text-xl font-bold text-white hover:text-slate-800">Shreya Dave</a>
+    <div class="hidden md:flex space-x-8">
+      <a href="#projects" class="nav-link text-white hover:text-slate-100">Projects</a>
+      <a href="#about" class="nav-link text-white hover:text-slate-100">About</a>
+      <a href="#experience" class="nav-link text-white hover:text-slate-100">Experience</a>
+      <a href="#testimonials" class="nav-link text-white hover:text-slate-100">Testimonials</a>
+      <a href="#contact" class="nav-link text-white hover:text-slate-100">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero" class="min-h-screen flex flex-col md:flex-row items-center gap-4 justify-center px-6 md:px-12 pt-24 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#f0fdfa] via-white to-[#f0fdfa] bg-animate">
+  <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0 section">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Hi, I'm Shreya <span class="wave">👋</span></h1>
+    <h2 class="text-xl md:text-2xl font-semibold mb-4 text-gray-700">Product Strategist & Creative Technologist</h2>
+    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto md:mx-0">Thriving at the intersection of strategy, systems, and storytelling to create impactful digital products</p>
+
+ <div class="flex flex-wrap gap-3 justify-center md:justify-start mb-8">
+      <span class="skill-badge bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">Product Strategy</span>
+      <span class="skill-badge bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">UX Design</span>
+      <span class="skill-badge bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">Data Analytics</span>
+      <span class="skill-badge bg-gray-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">B2B SaaS</span>
+    </div>
+
+     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+      <a href="#projects" class="bg-sage hover:bg-sage-dark text-white px-6 py-3 rounded-full font-medium transition-colors flex items-center justify-center">
+        <i class="fas fa-eye mr-2"></i> View My Work
+      </a>
+      <a href="#contact" class="border border-gray-300 hover:border-gray-400 text-gray-700 px-6 py-3 rounded-full font-medium transition-colors flex items-center justify-center">
+        <i class="fas fa-paper-plane mr-2"></i> Get in Touch
+      </a>
+    </div>
+  </div>
+  <div class="md:w-1/2 flex justify-center section">
+    <div class="relative">
+<img src="images/profile.jpg" alt="Shreya Dave" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover shadow-xl border-4 border-white">
+<div class="absolute -bottom-4 -right-4 bg-white p-3 rounded-full shadow-md">
+  <div class="bg-sage text-white p-3 rounded-full animate-pulse">
+    <i class="fas fa-bolt text-xl"></i>
+  </div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Selected Projects</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-10">
+      <!-- Project 1 -->
+      <div class="project-card bg-white p-8 rounded-xl shadow-md border border-gray-100 section">
+        <div class="flex justify-center mb-6">
+          <img src="images/surveymonkey.png" alt="SurveyMonkey" class="h-48 w-auto max-w-full">
+        </div>
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">SurveyMonkey Redesign</h3>
+        <p class="text-sm text-gray-600 mb-6">Redesigned "SurveyMonkey" app UI for simplicity and elegance, focusing on including sentiment-analysis to curate intuitive surveys, clear visuals, and user-friendly experience.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://www.figma.com/proto/2oTPLiHfj9HW79zUWqHFdt/FinalSurveyMonkey?type=design&node-id=2-2&t=IffampC5elfLCB4S-0&scaling=min-zoom&page-id=0%3A1" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+            <i class="fas fa-external-link-alt mr-2"></i> View Prototype
+          </a>
+          <a href="https://www.linkedin.com/in/dave-shreya/overlay/1714796868966/single-media-viewer/?profileId=ACoAACKQKSABXDtIYzocsTp225jOn6UMitPJhwg" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+            <i class="fas fa-presentation mr-2"></i> Presentation
+          </a>
+        </div>
+      </div>
+      
+      <!-- Project 2 -->
+      <div class="project-card bg-white p-8 rounded-xl shadow-md border border-gray-100 section">
+  <div class="flex justify-center mb-6">
+          <img src="images/dogmeals.png" alt="SurveyMonkey" class="h-48 w-auto max-w-full">
+        </div>
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Gourmet Dog Meals</h3>
+        <p class="text-sm text-gray-600 mb-6">Designed "Gourmet Dog Meals" app UI, focusing on intuitive quiz-based personalized dog meal shopping creating smooth user experience.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://www.figma.com/proto/oYyQpfoOmVUWI6OH5hpnWg/Gourmet-Dog-Meals?node-id=2-6&t=3zQMJnQb6xSKWbJL-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=26%3A121&show-proto-sidebar=1" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+            <i class="fas fa-external-link-alt mr-2"></i> View FigJam
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">About Me</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="bg-white p-8 md:p-10 rounded-xl shadow-md border border-gray-100 section">
+      <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+        I'm a product leader with a unique blend of technical expertise and business acumen, specializing in B2B SaaS platforms. My engineering background enables me to bridge the gap between technical teams and business stakeholders effectively. Currently enhancing my skills in product strategy and data-driven decision making at Northeastern University while working on cutting-edge SaaS products.
+      </p>
+      
+      <div class="bg-gray-50 p-6 rounded-lg">
+        <h3 class="text-lg font-semibold mb-4 text-gray-800">Academic Courses</h3>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-start">
+            <i class="fas fa-check-circle text-sage mt-1 mr-3"></i>
+            <span>Digital Product Design & Management</span>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-check-circle text-sage mt-1 mr-3"></i>
+            <span>Business Model Design & Innovation</span>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-check-circle text-sage mt-1 mr-3"></i>
+            <span>Operations Research</span>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-check-circle text-sage mt-1 mr-3"></i>
+            <span>Computation & Visualization for Analytics</span>
+          </div>
+          <div class="flex items-start">
+            <i class="fas fa-check-circle text-sage mt-1 mr-3"></i>
+            <span>Applied GenAI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Professional Journey</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="space-y-10">
+      <!-- Experience 1 -->
+      <div class="flex flex-col md:flex-row gap-6 items-start section">
+        <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+          <img src="images/northeastern.png" alt="Northeastern Logo" class="h-24 w-24 object-contain">
+        </div>
+        <div class="flex-grow">
+          <h3 class="text-xl font-semibold text-gray-800">Graduate Teaching Assistant | Northeastern University</h3>
+          <p class="text-gray-600 mb-2">Mentored 100+ students, evaluated assignments and co-designed grading rubrics for Digital Product Design and Management Course.</p>
+          <div class="flex items-center text-sm text-gray-500">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <span>2025 - Present</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Experience 2 -->
+      <div class="flex flex-col md:flex-row gap-6 items-start section">
+        <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+          <img src="images/apmc.png" alt="APMC Logo" class="h-24 w-24 object-contain">
+        </div>
+        <div class="flex-grow">
+          <h3 class="text-xl font-semibold text-gray-800">Vice President, Content | APMC, Northeastern University</h3>
+          <p class="text-sm text-gray-600 mb-2">Curated panel discussion content for Industry product leaders; Tripling engagement for Northeastern's flagship product conference, hosting 300+ attendees.</p>
+          <div class="flex items-center text-sm text-gray-500">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <span>2025 - Present</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Experience 3 -->
+      <div class="flex flex-col md:flex-row gap-6 items-start section">
+        <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+          <img src="images/marmon.png" alt="Marmon Logo" class="h-24 w-24 object-contain">
+        </div>
+        <div class="flex-grow">
+          <h3 class="text-xl font-semibold text-gray-800">Product Manager Intern | Marmon Industrial Energy and Infrastructure</h3>
+          <p class="text-sm text-gray-600 mb-2">Architected executive-facing product dashboard, Researched new BESS identifying 15+ value chain players and authored company's first market intelligence report compiling trends from 5 product lines.</p>
+          <div class="flex items-center text-sm text-gray-500">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <span>2024</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Experience 4 -->
+      <div class="flex flex-col md:flex-row gap-6 items-start section">
+        <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+          <img src="images/accenture.png" alt="Accenture Logo" class="h-24 w-24 object-contain">
+        </div>
+        <div class="flex-grow">
+          <h3 class="text-xl font-semibold text-gray-800">Senior Software Engineer | Accenture</h3>
+          <p class="text-sm text-gray-600 mb-2">Led SAP Device Management and billing module automation initiatives for a Fortune 250 utility client managing diagnostics for 5M+ users.</p>
+          <div class="flex items-center text-sm text-gray-500">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <span>2022 - 2023</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Experience 5 -->
+      <div class="flex flex-col md:flex-row gap-6 items-start section">
+        <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+          <img src="images/accenture.png" alt="Accenture Logo" class="h-24 w-24 object-contain">
+        </div>
+        <div class="flex-grow">
+          <h3 class="text-xl font-semibold text-gray-800">Software Engineer | Accenture</h3>
+          <p class="text-sm text-gray-600 mb-2">Reengineered SAP Advanced Metering Infrastructure activation protocols, deployed ABAP based web services to track faulty meters.</p>
+          <div class="flex items-center text-sm text-gray-500">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <span>2021 - 2022</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Experience 6 -->
+      <div class="flex flex-col md:flex-row gap-6 items-start section">
+        <div class="flex-shrink-0 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
+          <img src="images/accenture.png" alt="Accenture Logo" class="h-24 w-24 object-contain">
+        </div>
+        <div class="flex-grow">
+          <h3 class="text-xl font-semibold text-gray-800">Associate Software Engineer | Accenture</h3>
+          <p class="text-sm text-	gray-600 mb-2">Orchestrated platform migrations and ensured regulatory pricing for large industrial clients.</p>
+          <div class="flex items-center text-sm text-gray-500">
+            <i class="far fa-calendar-alt mr-2"></i>
+            <span>2019 - 2021</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-center mt-16 section">
+      <a href="https://drive.google.com/file/d/1_LkPae3wvX3qOpbc5vWtyz1z2T3JYtRo/view?usp=sharing" target="_blank" class="inline-flex items-center bg-sage hover:bg-sage-dark text-white px-6 py-3 rounded-full font-medium transition-colors">
+        <i class="fas fa-download mr-2"></i> Download Resume
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-20 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Testimonials</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white text-xl font-bold">SB</div>
+          <div class="ml-4">
+            <h4 class="font-semibold text-gray-800">Shawn Brown</h4>
+            <p class="text-sm text-gray-500">Group Product Manager - Marmon IEI</p>
+          </div>
+        </div>
+        <p class="text-gray-600 italic mb-4">"I had the pleasure of working with Shreya Dave, a talented Product Management Intern, who exceeded every expectation during her time with us. From day one, she showcased an impressive ability to dive into a wide variety of projects with minimal direction, delivering outstanding results every time. She played an instrumental role in supporting our team with a range of tasks, including developing a commercialization plan, conducting market research, and helping in the creation of insightful market intelligence reports."</p>
+        <div class="flex text-yellow-400">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+      
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white text-xl font-bold">RW</div>
+          <div class="ml-4">
+            <h4 class="font-semibold text-gray-800">Robert Werk</h4>
+            <p class="text-sm text-gray-500">Product Manager, Marmon IEI</p>
+          </div>
+        </div>
+        <p class="text-gray-600 italic mb-4">"In my short time working with Shreya I was able to witness the large impact she had on our team at Marmon IEI. She was able to gather and synthesize information in meaningful ways that helped form strategy around our market plans. Shreya was also able to pool gathered information from the team to generate full professional reports to be consumed by senior leadership. It is clear that she went above and beyond what was required of her during her time at Marmon IEI."</p>
+        <div class="flex text-yellow-400">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+      
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white text-xl font-bold">VM</div>
+          <div class="ml-4">
+            <h4 class="font-semibold text-gray-800">Vatsal Mehta</h4>
+            <p class="text-sm text-gray-500">Former Manager, Accenture</p>
+          </div>
+        </div>
+        <p class="text-gray-600 italic mb-4">"I had the pleasure of mentoring Shreya at Accenture, and she's truly exceptional. Her quick grasp of complex concepts, coupled with her strong communication skills, makes her an invaluable asset to any team. Shreya is dedicated, adaptable, and always eager to learn. I highly recommend her for any role she pursues."</p>
+        <div class="flex text-yellow-400">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Leadership Section -->
+<section id="leadership" class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Leadership & Community</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Leadership 1 -->
+      <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <img src="images/apmc.png" class="h-12 w-12 object-contain mr-4">
+          <h3 class="text-xl font-semibold text-gray-800">Speaker, Northstar @ APMC</h3>
+        </div>
+        <p class="text-gray-600 mb-4">Lead learning sessions on UI design and MVP building for aspiring product managers.</p>
+        <a href="https://www.linkedin.com/posts/dave-shreya_northstarbootcamp-productmanagement-learning-activity-7302823217725952000-MMCY?utm_source=share&utm_medium=member_desktop&rcm=ACoAACKQKSABXDtIYzocsTp225jOn6UMitPJhwg" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+          <i class="fas fa-external-link-alt mr-2"></i> View Session
+        </a>
+      </div>
+      
+      <!-- Leadership 2 -->
+      <div class="bg-gray-50 p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <img src="images/anitab.png" alt="AnitaB Logo" class="h-12 w-12 object-contain mr-4">
+          <h3 class="text-xl font-semibold text-gray-800">Scholarship Reviewer @ AnitaB.org</h3>
+        </div>
+        <p class="text-gray-600 mb-4">Evaluated 30+ applications for technical merit and impact, contributing to initiatives that advance women in STEM.</p>
+        <a href="https://anitab.org/" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+          <i class="fas fa-external-link-alt mr-2"></i> Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Certifications Section -->
+<section id="certifications" class="py-20 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Certifications</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Certification 1 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <div class="bg-sage text-white p-3 rounded-lg mr-4">
+            <i class="fas fa-certificate text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Data-Driven Product Research and Design</h3>
+        </div>
+        <p class="text-gray-600 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/b901c588bd53bb1ee3de630db21ae124c49b5a875db646e5b70cd867e61a0a07" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+          <i class="fas fa-external-link-alt mr-2"></i> View Certificate
+        </a>
+      </div>
+      
+      <!-- Certification 2 -->
+      <div class="bg-white p-8 rounded-xl border border-gray-200 section">
+        <div class="flex items-center mb-4">
+          <div class="bg-sage text-white p-3 rounded-lg mr-4">
+            <i class="fas fa-certificate text-xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800">Generative AI for Product Managers</h3>
+        </div>
+        <p class="text-gray-600 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/a9530500f3fc8077b48d2d7ec16dde0ab35f933bfb4f713fc34848e9b1dd368d" target="_blank" class="inline-flex items-center text-sage hover:text-sage-dark font-medium">
+          <i class="fas fa-external-link-alt mr-2"></i> View Certificate
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-20 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-16 section">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Let's Connect</h2>
+      <div class="w-20 h-1 bg-sage mx-auto"></div>
+    </div>
+    
+    <div class="bg-gray-50 p-8 md:p-10 rounded-xl border border-gray-200 text-center section">
+      <p class="text-xl text-gray-700 mb-8">Open to collaborations, roles & good conversation!</p>
+      
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <a href="mailto:dave.shr@northeastern.edu" class="inline-flex items-center bg-sage hover:bg-sage-dark text-white px-6 py-3 rounded-full font-medium transition-colors">
+          <i class="fas fa-envelope mr-2"></i> Email Me
+        </a>
+        <a href="https://www.linkedin.com/in/dave-shreya/" target="_blank" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-colors">
+          <i class="fab fa-linkedin-in mr-2"></i> LinkedIn
+        </a>
+      </div>
+      
+      <div class="bg-white p-4 rounded-lg inline-block">
+        <p class="text-gray-800 font-medium">
+          <i class="fas fa-envelope text-sage mr-2"></i> dave.shr@northeastern.edu
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-10 bg-gray-900 text-white">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <p class="mb-4">© 2024 Shreya Dave. All rights reserved.</p>
+    <div class="flex justify-center space-x-6">
+      <a href="https://www.linkedin.com/in/dave-shreya/" target="_blank" class="text-gray-300 hover:text-white">
+        <i class="fab fa-linkedin-in text-xl"></i>
+      </a>
+      <a href="mailto:dave.shr@northeastern.edu" class="text-gray-300 hover:text-white">
+        <i class="fas fa-envelope text-xl"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to Top Button -->
+<button id="scrollToTop" class="fixed bottom-8 right-8 bg-sage hover:bg-sage-dark text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-opacity opacity-0 invisible">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Scripts -->
+<script>
+  // Scroll reveal animation
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -100px 0px"
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.section').forEach(section => {
+    observer.observe(section);
+  });
+
+  // Scroll to top button
+  const scrollToTopBtn = document.getElementById('scrollToTop');
+  
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+      scrollToTopBtn.classList.remove('opacity-0', 'invisible');
+      scrollToTopBtn.classList.add('opacity-100', 'visible');
+    } else {
+      scrollToTopBtn.classList.remove('opacity-100', 'visible');
+      scrollToTopBtn.classList.add('opacity-0', 'invisible');
+    }
+  });
+
+  scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  // Mobile menu toggle (placeholder - would need more implementation)
+  document.querySelector('button.md\\:hidden').addEventListener('click', () => {
+    alert('Mobile menu would open here in a full implementation');
+  });
+</script> <!-- New script for Top Bar + Nav color change on scroll -->
+<script>
+window.addEventListener('scroll', function() {
+  const topBar = document.getElementById('topBar');
+  const mainNav = document.getElementById('mainNav');
+
+  if (window.scrollY > 50) {
+    topBar.classList.add('bg-[#2C6E63]');
+    mainNav.classList.remove('bg-sage');
+    mainNav.classList.add('bg-[#4C9A92]');
+  } else {
+    topBar.classList.remove('bg-[#2C6E63]');
+    topBar.classList.add('bg-[#4C9A92]');
+
+    mainNav.classList.remove('bg-[#4C9A92]');
+    mainNav.classList.add('bg-sage');
+  }
+});
+</script>
+
+</body>
+</html>
