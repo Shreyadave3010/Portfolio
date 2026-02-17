@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gourmet Dog Meals — Interactive Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <style>
+    body { margin: 0; font-family: 'Nunito', sans-serif; }
+    * { box-sizing: border-box; }
+    input:focus { outline: 2px solid #2D6A4F; }
+    button { cursor: pointer; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const C = { gold: "#F5C518", goldLight: "#FFF3C4", goldDark: "#E6B800", green: "#2D6A4F", greenLight: "#40916C", greenDark: "#1B4332", cream: "#FFFDF5", white: "#FFF", text: "#1C1917", muted: "#78716C" };
+
+const BRANDS = [
+  { name: "Petco", emoji: "🐾" }, { name: "Sundays for Dogs", emoji: "☀️" },
+  { name: "PetSmart", emoji: "🏪" }, { name: "The Farmer's Dog", emoji: "🌾" },
+  { name: "Pedigree", emoji: "🦴" }, { name: "Ollie", emoji: "🐕" },
+];
+
+const MEALS = [
+  { id:1, name:"Healthy Pup Chicken", brand:"Petco", protein:"Chicken", ingredients:"Chicken, brown rice, sweet potato, peas, carrots", weights:["5lb","15lb","30lb"], prices:["$14.99","$34.99","$59.99"], calories:380, rating:4.5, reviews:115, img:"🍗" },
+  { id:2, name:"Sunday Beef Bowl", brand:"Sundays for Dogs", protein:"Beef", ingredients:"Beef, quinoa, kale, blueberries, fish oil", weights:["4lb","12lb","24lb"], prices:["$19.99","$44.99","$79.99"], calories:420, rating:4.7, reviews:89, img:"🥩" },
+  { id:3, name:"Smart Lamb Feast", brand:"PetSmart", protein:"Lamb", ingredients:"Lamb, oats, pumpkin, spinach, flaxseed", weights:["5lb","15lb","30lb"], prices:["$16.99","$38.99","$64.99"], calories:395, rating:4.3, reviews:142, img:"🍖" },
+  { id:4, name:"Farm Fresh Turkey", brand:"The Farmer's Dog", protein:"Turkey", ingredients:"Turkey, liver, heart, lentils, green beans", weights:["6lb","14lb","28lb"], prices:["$22.99","$49.99","$89.99"], calories:360, rating:4.8, reviews:203, img:"🦃" },
+  { id:5, name:"Classic Dry Mix", brand:"Pedigree", protein:"Chicken", ingredients:"Chicken, corn, wheat, soybean meal, beef fat", weights:["10lb","22lb","44lb"], prices:["$12.99","$24.99","$39.99"], calories:350, rating:4.0, reviews:312, img:"🥣" },
+  { id:6, name:"Fresh Baked Bites", brand:"Ollie", protein:"Beef", ingredients:"Beef, sweet potato, rosemary, peas, blueberries", weights:["5lb","12lb","24lb"], prices:["$24.99","$54.99","$94.99"], calories:410, rating:4.6, reviews:78, img:"🧁" },
+];
+
+const QQ = [
+  { id:"info", title:"Tell us about your dog", type:"input", fields:[{key:"name",label:"Dog's Name",ph:"e.g. Buddy"},{key:"age",label:"Dog's Age",ph:"e.g. 3 years"},{key:"breed",label:"Dog's Breed",ph:"e.g. Golden Retriever"}] },
+  { id:"activity", title:"How would you describe your dog's activity level?", type:"radio", options:["🛋️ Couch Potato","🏃 Active","⚡ Highly Active"], extra:{key:"health",label:"Any known health issues or allergies?",ph:"Enter your answer"} },
+  { id:"food", title:"What type of food does your dog prefer?", type:"radio", options:["🥫 Dry Food","🥘 Wet Food","🥩 Raw Diet","🤷 No Preferences"], extra:{key:"avoid",label:"Any ingredients you want to avoid?",ph:"Enter your answer"} },
+  { id:"protein", title:"Does your dog have any favorite protein?", type:"radio", options:["🐄 Beef","🐑 Lamb","🐔 Chicken","🥬 Vegetarian"], extra:{key:"allergies",label:"Any known health issues or allergies?",ph:"Enter your answer"} },
+];
+
+const Stars = ({r}) => <span style={{display:"flex",alignItems:"center",gap:2}}>{[...Array(5)].map((_,i)=><span key={i} style={{color:i<Math.floor(r)||(i===Math.floor(r)&&r%1>=.5)?"#F59E0B":"#D1D5DB",fontSize:14}}>★</span>)}<span style={{fontSize:12,color:C.muted,marginLeft:4}}>({r})</span></span>;
+
+const Paw = ({style={}}) => <span style={{position:"absolute",fontSize:40,opacity:.08,...style}}>🐾</span>;
+
+const Frame = ({children}) => (
+  <div style={{display:"flex",justifyContent:"center",alignItems:"center",minHeight:"100vh",background:"linear-gradient(145deg,#1B4332 0%,#2D6A4F 50%,#F5C518 100%)",padding:20}}>
+    <div style={{width:390,minHeight:844,maxHeight:844,background:C.cream,borderRadius:40,overflow:"hidden",boxShadow:"0 25px 60px rgba(0,0,0,.3)",position:"relative",display:"flex",flexDirection:"column"}}>
+      <div style={{height:50,background:C.green,display:"flex",alignItems:"center",justifyContent:"center",padding:"0 20px",flexShrink:0}}>
+        <span style={{color:"white",fontSize:12,fontWeight:600}}>7:07</span>
+        <span style={{marginLeft:"auto",color:"white",fontSize:12}}>📶 🔋</span>
+      </div>
+      {children}
+    </div>
+  </div>
+);
+
+const Nav = ({title,go,cc=0}) => (
+  <div style={{background:C.green,padding:"10px 20px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+    <button onClick={()=>go("home")} style={{background:"none",border:"none",color:"white",fontSize:20}}>🏠</button>
+    <span style={{color:"white",fontWeight:700,fontSize:14}}>{title}</span>
+    <div style={{display:"flex",gap:12}}>
+      <button onClick={()=>go("cart")} style={{background:"none",border:"none",color:"white",fontSize:20,position:"relative"}}>🛒{cc>0&&<span style={{position:"absolute",top:-6,right:-8,background:"#EF4444",color:"white",borderRadius:"50%",width:18,height:18,fontSize:10,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{cc}</span>}</button>
+      <button onClick={()=>go("profile")} style={{background:"none",border:"none",color:"white",fontSize:20}}>👤</button>
+    </div>
+  </div>
+);
+
+const Btn = ({children,onClick,style={},small}) => (
+  <button onClick={onClick} style={{background:C.green,color:"white",border:"none",borderRadius:25,padding:small?"8px 20px":"14px 32px",fontWeight:700,fontSize:small?13:15,width:"100%",fontFamily:"inherit",transition:"all .2s",...style}}
+    onMouseEnter={e=>{e.target.style.opacity=".9";e.target.style.transform="translateY(-1px)"}}
+    onMouseLeave={e=>{e.target.style.opacity="1";e.target.style.transform="translateY(0)"}}>{children}</button>
+);
+
+const Inp = ({label,ph,value,onChange,type="text"}) => (
+  <div style={{marginBottom:12}}>
+    {label&&<div style={{background:C.green,color:"white",padding:"6px 14px",borderRadius:"8px 8px 0 0",fontSize:13,fontWeight:700}}>{label}</div>}
+    <input type={type} placeholder={ph} value={value} onChange={e=>onChange(e.target.value)} style={{width:"100%",padding:"10px 14px",border:`2px solid ${C.green}`,borderTop:label?"none":"",borderRadius:label?"0 0 8px 8px":"8px",fontSize:14,fontFamily:"inherit",outline:"none",boxSizing:"border-box",background:"white"}}/>
+  </div>
+);
+
+// Screens
+const Welcome = ({go}) => (
+  <div style={{flex:1,background:C.gold,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:30,position:"relative",overflow:"hidden"}}>
+    <Paw style={{top:30,left:20,transform:"rotate(-20deg)"}}/><Paw style={{bottom:60,right:20,transform:"rotate(15deg)"}}/><Paw style={{top:120,right:40,transform:"rotate(-45deg)",fontSize:30}}/>
+    <div style={{fontSize:80,marginBottom:8}}>🐕</div>
+    <h1 style={{fontSize:28,fontWeight:900,color:C.text,textAlign:"center",margin:"0 0 8px"}}>Gourmet Dog Meals</h1>
+    <p style={{fontSize:13,color:C.muted,marginBottom:40,textAlign:"center"}}>From bowl to tail, pure happiness in every bite!</p>
+    <Btn onClick={()=>go("signin")} style={{marginBottom:12}}>Sign In</Btn>
+    <Btn onClick={()=>go("signup")} style={{background:"transparent",color:C.green,border:`2px solid ${C.green}`}}>Sign Up</Btn>
+  </div>
+);
+
+const SignIn = ({go}) => {
+  const [e,se]=useState(""); const [p,sp]=useState("");
+  return <div style={{flex:1,background:C.gold,padding:30,display:"flex",flexDirection:"column",alignItems:"center",position:"relative",overflow:"hidden"}}>
+    <Paw style={{bottom:40,left:20}}/><div style={{fontSize:60,marginTop:20,marginBottom:8}}>🐕</div>
+    <h2 style={{fontSize:22,fontWeight:800,marginBottom:30}}>Gourmet Dog Meals</h2>
+    <div style={{width:"100%"}}><Inp label="Email :" ph="your@email.com" value={e} onChange={se}/><Inp label="Password :" ph="••••••••" value={p} onChange={sp} type="password"/></div>
+    <Btn onClick={()=>go("home")} style={{marginTop:20}}>Sign In</Btn>
+    <button onClick={()=>go("signup")} style={{background:"none",border:"none",color:C.green,marginTop:16,fontSize:13,fontWeight:700,fontFamily:"inherit"}}>Don't have an account? Sign Up</button>
+  </div>;
+};
+
+const SignUp = ({go}) => {
+  const [f,sf]=useState({n:"",e:"",p:"",c:""});
+  return <div style={{flex:1,background:C.gold,padding:30,display:"flex",flexDirection:"column",position:"relative",overflow:"hidden"}}>
+    <Paw style={{bottom:20,right:20}}/>
+    <div style={{textAlign:"center",marginBottom:16}}><div style={{width:70,height:70,borderRadius:"50%",background:"#E5E7EB",margin:"0 auto 8px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28}}>📷</div><span style={{fontSize:12,color:C.muted}}>Add Photo</span></div>
+    <Inp label="Name :" ph="Full Name" value={f.n} onChange={v=>sf({...f,n:v})}/><Inp label="Email :" ph="your@email.com" value={f.e} onChange={v=>sf({...f,e:v})}/><Inp label="Password :" ph="••••••••" value={f.p} onChange={v=>sf({...f,p:v})} type="password"/><Inp label="Confirm Password :" ph="••••••••" value={f.c} onChange={v=>sf({...f,c:v})} type="password"/>
+    <Btn onClick={()=>go("home")} style={{marginTop:8}}>Sign Up</Btn>
+  </div>;
+};
+
+const Home = ({go,cc}) => (<>
+  <Nav title="Home" go={go} cc={cc}/>
+  <div style={{flex:1,overflowY:"auto",background:C.cream}}>
+    <div style={{background:C.green,padding:"12px 16px",display:"flex",alignItems:"center",gap:10}}>
+      <span style={{fontSize:32}}>🐕</span>
+      <div><div style={{color:"white",fontWeight:800,fontSize:15}}>GOURMET DOG MEALS</div><div style={{color:"#A7F3D0",fontSize:11}}>From bowl to tail, pure happiness in every bite!</div></div>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:4,padding:8}}>
+      {["🐶","🐕‍🦺","🦮"].map((e,i)=><div key={i} style={{background:C.goldLight,borderRadius:12,height:80,display:"flex",alignItems:"center",justifyContent:"center",fontSize:36}}>{e}</div>)}
+    </div>
+    <div style={{padding:"16px 20px",display:"flex",flexDirection:"column",gap:10}}>
+      <Btn onClick={()=>go("quizStart")}>🧪 Take Quiz</Btn>
+      <Btn onClick={()=>go("customize")} style={{background:C.greenLight}}>🍽️ Customize Meal</Btn>
+      <Btn onClick={()=>go("meals")} style={{background:C.goldDark,color:C.text}}>📋 Browse All Meals</Btn>
+    </div>
+    <div style={{padding:"16px 20px"}}><h3 style={{fontSize:15,fontWeight:800,textAlign:"center",marginBottom:12}}>Brand Partners</h3>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:8}}>
+        {BRANDS.slice(0,4).map(b=><div key={b.name} style={{textAlign:"center"}}><div style={{width:50,height:50,borderRadius:"50%",background:C.goldLight,margin:"0 auto 4px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>{b.emoji}</div><span style={{fontSize:9,fontWeight:600}}>{b.name}</span></div>)}
+      </div>
+    </div>
+  </div>
+</>);
+
+const QuizStart = ({go,cc}) => (<>
+  <Nav title="Quiz" go={go} cc={cc}/>
+  <div style={{flex:1,background:C.gold,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:30,position:"relative",overflow:"hidden"}}>
+    <Paw style={{top:40,right:20}}/><Paw style={{bottom:80,left:30}}/>
+    <div style={{fontSize:70,marginBottom:16}}>🔍</div>
+    <h2 style={{fontSize:22,fontWeight:800,textAlign:"center",marginBottom:8}}>Find the Perfect meal for your furry friend</h2>
+    <p style={{fontSize:13,color:C.muted,textAlign:"center",marginBottom:30}}>Answer a few quick questions!</p>
+    <Btn onClick={()=>go("quiz")}>Take Quiz</Btn>
+    <button onClick={()=>go("home")} style={{background:"none",border:"none",color:C.green,marginTop:16,fontSize:13,fontWeight:700,fontFamily:"inherit"}}>← Back</button>
+  </div>
+</>);
+
+const Quiz = ({go,qa,setQa,cc}) => {
+  const [step,setStep]=useState(0); const q=QQ[step]; const [sel,setSel]=useState(""); const [inp,setInp]=useState({name:"",age:"",breed:""}); const [extra,setExtra]=useState("");
+  return <>
+    <Nav title="Quiz" go={go} cc={cc}/>
+    <div style={{flex:1,background:C.gold,padding:20,overflowY:"auto",position:"relative"}}>
+      <Paw style={{bottom:20,right:10}}/>
+      <div style={{display:"flex",gap:4,marginBottom:16}}>{QQ.map((_,i)=><div key={i} style={{flex:1,height:4,borderRadius:2,background:i<=step?C.green:"#D1D5DB"}}/>)}</div>
+      <h3 style={{fontSize:18,fontWeight:800,marginBottom:20}}>{q.title}</h3>
+      {q.type==="input"?<div>{q.fields.map(f=><Inp key={f.key} label={f.label+" :"} ph={f.ph} value={inp[f.key]||""} onChange={v=>setInp({...inp,[f.key]:v})}/>)}</div>:
+      <div><div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:16}}>
+        {q.options.map(o=><button key={o} onClick={()=>setSel(o)} style={{background:sel===o?C.green:"white",color:sel===o?"white":C.text,border:`2px solid ${C.green}`,borderRadius:12,padding:"12px 16px",fontSize:14,fontWeight:600,textAlign:"left",fontFamily:"inherit",transition:"all .2s"}}>{o}</button>)}
+      </div>{q.extra&&<div style={{marginTop:8}}><p style={{fontSize:13,fontWeight:700,marginBottom:6}}>{q.extra.label}</p><Inp ph={q.extra.ph} value={extra} onChange={setExtra}/></div>}</div>}
+      <div style={{display:"flex",gap:10,marginTop:20}}>
+        {step>0&&<Btn onClick={()=>{setStep(step-1);setSel("");setExtra("")}} style={{background:C.greenLight}}>← Back</Btn>}
+        {step<QQ.length-1?<Btn onClick={()=>{if(q.type==="input")setQa({...qa,...inp});else setQa({...qa,[q.id]:sel});setStep(step+1);setSel("");setExtra("")}}>Next →</Btn>:
+        <Btn onClick={()=>{setQa({...qa,[q.id]:sel});go("quizResults")}}>Submit ✓</Btn>}
+      </div>
+    </div>
+  </>;
+};
+
+const QuizResults = ({go,qa,cc}) => (<>
+  <Nav title="Quiz Results" go={go} cc={cc}/>
+  <div style={{flex:1,background:C.gold,padding:20,overflowY:"auto"}}>
+    <div style={{textAlign:"center",marginBottom:16}}><span style={{fontSize:36}}>🎉</span>
+      <h2 style={{fontSize:18,fontWeight:800,marginTop:4}}>{qa.name?`"${qa.name}'s Personalized`:'"Your Dog\'s Personalized'}</h2>
+      <h3 style={{fontSize:16,fontWeight:700}}>Meal Recommendations"</h3>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:20}}>
+      {MEALS.slice(0,4).map(m=><button key={m.id} onClick={()=>go("mealDetail",m.id)} style={{background:"white",border:"2px solid #E5E7EB",borderRadius:16,padding:12,textAlign:"center",fontFamily:"inherit",transition:"all .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor=C.green} onMouseLeave={e=>e.currentTarget.style.borderColor="#E5E7EB"}>
+        <div style={{fontSize:36,marginBottom:4}}>{m.img}</div><div style={{fontSize:11,fontWeight:700}}>{m.brand}</div><div style={{fontSize:10,color:C.muted}}>{m.name}</div>
+      </button>)}
+    </div>
+    <div style={{display:"flex",flexDirection:"column",gap:8}}>
+      <Btn onClick={()=>go("quizStart")}>🔄 Retake Quiz</Btn>
+      <Btn onClick={()=>go("meals")} style={{background:C.greenLight}}>🔍 Explore More</Btn>
+      <Btn onClick={()=>go("compare")} style={{background:C.goldDark,color:C.text}}>⚖️ Compare Meals</Btn>
+    </div>
+  </div>
+</>);
+
+const Meals = ({go,cc}) => (<>
+  <Nav title="MEALS" go={go} cc={cc}/>
+  <div style={{flex:1,overflowY:"auto",background:C.cream,padding:16}}>
+    <h3 style={{fontSize:18,fontWeight:800,textAlign:"center",marginBottom:16}}>MEALS</h3>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+      {MEALS.map(m=><button key={m.id} onClick={()=>go("mealDetail",m.id)} style={{background:"white",border:"2px solid #E5E7EB",borderRadius:16,padding:14,textAlign:"center",fontFamily:"inherit",transition:"all .2s"}} onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.boxShadow="0 8px 20px rgba(0,0,0,.1)"}} onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow=""}}>
+        <div style={{fontSize:40,marginBottom:6}}>{m.img}</div><div style={{fontSize:12,fontWeight:800}}>{m.brand}</div><div style={{fontSize:10,color:C.muted}}>{m.name}</div><div style={{fontSize:11,fontWeight:700,color:C.green,marginTop:4}}>{m.prices[0]}</div>
+      </button>)}
+    </div>
+    <div style={{marginTop:16}}><Btn onClick={()=>go("compare")}>⚖️ Compare Meals</Btn></div>
+  </div>
+</>);
+
+const MealDetail = ({go,meal,addCart,cc}) => {
+  const [added,setAdded]=useState(false); if(!meal) return null;
+  return <>
+    <Nav title="Meal Details" go={go} cc={cc}/>
+    <div style={{flex:1,overflowY:"auto",background:C.cream,padding:20}}>
+      <div style={{textAlign:"center",marginBottom:16}}><div style={{fontSize:80,marginBottom:8}}>{meal.img}</div></div>
+      <div style={{background:"white",borderRadius:16,padding:16,border:"1px solid #E5E7EB"}}>
+        <h3 style={{fontSize:18,fontWeight:800,marginBottom:4}}>{meal.name}</h3>
+        <p style={{fontSize:12,color:C.muted,marginBottom:12}}>{meal.brand}</p>
+        <div style={{fontSize:13,marginBottom:8}}><strong>Protein type:</strong> {meal.protein}</div>
+        <div style={{fontSize:13,marginBottom:8}}><strong>Ingredients:</strong> {meal.ingredients}</div>
+        <div style={{fontSize:13,marginBottom:8}}><strong>Weight:</strong> {meal.weights.join(", ")}</div>
+        <div style={{fontSize:13,marginBottom:8}}><strong>Cost:</strong> {meal.prices.join(", ")}</div>
+        <div style={{fontSize:13,marginBottom:12}}><strong>Calories:</strong> {meal.calories} kcal/cup</div>
+        {!added?<Btn onClick={()=>{addCart(meal);setAdded(true)}}>🛒 Add to Cart</Btn>:
+        <div style={{background:C.greenLight,color:"white",borderRadius:25,padding:"14px 32px",fontWeight:700,fontSize:15,textAlign:"center",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>Added to Cart ✓</div>}
+        <div style={{marginTop:16}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}><Stars r={meal.rating}/><span style={{fontSize:12,color:C.muted}}>({meal.reviews} reviews)</span></div>
+          {[1,2,3].map(i=><div key={i} style={{fontSize:12,color:C.muted,marginBottom:4}}>🐾 Review {i}: "Great food, my dog loves it!"</div>)}
+        </div>
+      </div>
+      <button onClick={()=>go("meals")} style={{background:"none",border:"none",color:C.green,marginTop:16,fontSize:13,fontWeight:700,fontFamily:"inherit",display:"block"}}>← Back to Meals</button>
+    </div>
+  </>;
+};
+
+const Customize = ({go,cc}) => {
+  const [ing,setIng]=useState(""); const [cal,setCal]=useState(""); const [br,setBr]=useState("");
+  return <>
+    <Nav title="Customize Meal" go={go} cc={cc}/>
+    <div style={{flex:1,overflowY:"auto",background:C.cream,padding:20}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:20}}>
+        <div><h4 style={{fontSize:13,fontWeight:800,marginBottom:8}}>Ingredient Specifics</h4>
+          {["With Grain","Grain Free","High Protein","Premium Food","Weight Control"].map(o=><label key={o} style={{display:"flex",alignItems:"center",gap:6,marginBottom:6,fontSize:12}}><input type="radio" name="ing" checked={ing===o} onChange={()=>setIng(o)} style={{accentColor:C.green}}/>{o}</label>)}</div>
+        <div><h4 style={{fontSize:13,fontWeight:800,marginBottom:8}}>Calorie Range</h4>
+          {["300-500","500-800","800-1200","1200-1500","1500-1900"].map(o=><label key={o} style={{display:"flex",alignItems:"center",gap:6,marginBottom:6,fontSize:12}}><input type="radio" name="cal" checked={cal===o} onChange={()=>setCal(o)} style={{accentColor:C.green}}/>{o}</label>)}</div>
+      </div>
+      <h4 style={{fontSize:13,fontWeight:800,marginBottom:8}}>By Brand</h4>
+      {BRANDS.map(b=><label key={b.name} style={{display:"flex",alignItems:"center",gap:6,marginBottom:6,fontSize:12}}><input type="radio" name="br" checked={br===b.name} onChange={()=>setBr(b.name)} style={{accentColor:C.green}}/>{b.emoji} {b.name}</label>)}
+      <Btn onClick={()=>go("meals")} style={{marginTop:16}}>🔍 Search Meals</Btn>
+    </div>
+  </>;
+};
+
+const Compare = ({go,cc}) => (<>
+  <Nav title="Meals Comparison" go={go} cc={cc}/>
+  <div style={{flex:1,overflowY:"auto",overflowX:"auto",background:C.cream,padding:12}}>
+    <div style={{minWidth:500}}><table style={{width:"100%",borderCollapse:"collapse",fontSize:11}}>
+      <thead><tr style={{background:C.green,color:"white"}}><th style={{padding:8,textAlign:"left"}}>Feature</th>{MEALS.slice(0,4).map(m=><th key={m.id} style={{padding:8,textAlign:"center"}}>{m.img}<br/>{m.brand}</th>)}</tr></thead>
+      <tbody>{[{l:"Item Name",k:"name"},{l:"Protein",k:"protein"},{l:"Price (sm)",f:m=>m.prices[0]},{l:"Weight",f:m=>m.weights.join(", ")},{l:"Calories",f:m=>m.calories+" kcal"},{l:"Rating",f:m=>"⭐ "+m.rating}].map((r,i)=>
+        <tr key={i} style={{background:i%2===0?"white":C.goldLight}}><td style={{padding:8,fontWeight:700}}>{r.l}</td>{MEALS.slice(0,4).map(m=><td key={m.id} style={{padding:8,textAlign:"center"}}>{r.f?r.f(m):m[r.k]}</td>)}</tr>
+      )}</tbody></table></div>
+    <button onClick={()=>go("meals")} style={{background:"none",border:"none",color:C.green,marginTop:16,fontSize:13,fontWeight:700,fontFamily:"inherit"}}>← Back</button>
+  </div>
+</>);
+
+const Cart = ({go,cart,setCart,cc}) => (<>
+  <Nav title="Your Cart" go={go} cc={cc}/>
+  <div style={{flex:1,overflowY:"auto",background:C.cream,padding:20}}>
+    {cart.length===0?<div style={{textAlign:"center",marginTop:60}}><div style={{fontSize:60,marginBottom:12}}>🛒</div><p style={{color:C.muted,fontSize:14}}>Your cart is empty</p><Btn onClick={()=>go("meals")} style={{marginTop:20,maxWidth:200,margin:"20px auto 0"}}>Browse Meals</Btn></div>:<>
+      <h3 style={{fontSize:16,fontWeight:800,textAlign:"center",marginBottom:16}}>Ready to order</h3>
+      <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:20}}>
+        {cart.map((item,i)=><div key={i} style={{background:"white",borderRadius:12,padding:12,display:"flex",alignItems:"center",gap:12,border:"1px solid #E5E7EB"}}>
+          <span style={{fontSize:36}}>{item.img}</span>
+          <div style={{flex:1}}><div style={{fontSize:13,fontWeight:700}}>{item.name}</div><div style={{fontSize:11,color:C.muted}}>{item.brand} · {item.prices[0]}</div></div>
+          <button onClick={()=>setCart(cart.filter((_,j)=>j!==i))} style={{background:"#FEE2E2",border:"none",borderRadius:8,width:28,height:28,fontSize:12,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+        </div>)}
+      </div>
+      <div style={{background:"white",borderRadius:12,padding:12,marginBottom:16,border:"1px solid #E5E7EB"}}>
+        <div style={{display:"flex",justifyContent:"space-between",fontSize:14,fontWeight:700}}><span>Total:</span><span style={{color:C.green}}>${cart.reduce((s,i)=>s+parseFloat(i.prices[0].replace("$","")),0).toFixed(2)}</span></div>
+      </div>
+      <Btn onClick={()=>go("checkout")}>Proceed to Check Out →</Btn>
+    </>}
+  </div>
+</>);
+
+const Checkout = ({go,cart,cc}) => (<>
+  <Nav title="Check Out" go={go} cc={cc}/>
+  <div style={{flex:1,overflowY:"auto",background:C.cream,padding:20}}>
+    <div style={{background:C.green,color:"white",padding:"8px 14px",borderRadius:10,fontWeight:700,fontSize:14,marginBottom:12,textAlign:"center"}}>Shipping Address</div>
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:16}}>
+      {["Name","State","Address 1","Postal Code","Address 2","Country","City"].map(f=><input key={f} placeholder={f} style={{padding:"8px 10px",borderRadius:8,border:"1px solid #D1D5DB",fontSize:12,fontFamily:"inherit"}}/>)}
+    </div>
+    <div style={{background:C.green,color:"white",padding:"8px 14px",borderRadius:10,fontWeight:700,fontSize:14,marginBottom:12,textAlign:"center"}}>Order Summary</div>
+    {cart.map((item,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:8,marginBottom:8,fontSize:12}}><span style={{fontSize:24}}>{item.img}</span><span style={{flex:1}}>{item.name}</span><span style={{fontWeight:700}}>{item.prices[0]}</span></div>)}
+    <div style={{background:C.green,color:"white",padding:"8px 14px",borderRadius:10,fontWeight:700,fontSize:14,marginBottom:12,marginTop:12,textAlign:"center"}}>Payment Info</div>
+    {["Name on Card","Card Number","CVV","Expiry Date"].map(f=><input key={f} placeholder={f} style={{width:"100%",padding:"8px 10px",borderRadius:8,border:"1px solid #D1D5DB",fontSize:12,marginBottom:8,fontFamily:"inherit",boxSizing:"border-box"}}/>)}
+    <Btn onClick={()=>go("orderPlaced")} style={{marginTop:8}}>Place Your Order</Btn>
+  </div>
+</>);
+
+const OrderPlaced = ({go}) => (<>
+  <Nav title="Order Placed" go={go} cc={0}/>
+  <div style={{flex:1,background:C.gold,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:30,position:"relative",overflow:"hidden"}}>
+    <Paw style={{top:40,left:20}}/><Paw style={{bottom:60,right:20}}/>
+    <h1 style={{fontSize:36,fontWeight:900,marginBottom:16}}>Thank You!</h1>
+    <div style={{display:"flex",gap:12,marginBottom:20}}>{["📦","✅","🚚"].map((e,i)=><div key={i} style={{width:50,height:50,background:"white",borderRadius:12,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,boxShadow:"0 2px 8px rgba(0,0,0,.1)"}}>{e}</div>)}</div>
+    <p style={{fontSize:14,textAlign:"center",marginBottom:4}}>Your order has been placed successfully</p>
+    <p style={{fontSize:12,color:C.muted,textAlign:"center",marginBottom:4}}>Order Id: #GDM-{Math.floor(Math.random()*9000+1000)}</p>
+    <p style={{fontSize:12,color:C.muted,textAlign:"center",marginBottom:30}}>Estimated delivery: 3-5 business days</p>
+    <Btn onClick={()=>go("home")}>Continue Shopping</Btn>
+  </div>
+</>);
+
+const Profile = ({go,cc}) => (<>
+  <Nav title="Your Profile" go={go} cc={cc}/>
+  <div style={{flex:1,overflowY:"auto",background:C.cream,padding:20}}>
+    <div style={{marginBottom:20}}><h3 style={{fontSize:18,fontWeight:800,marginBottom:4}}>Edit</h3><p style={{fontSize:12,color:C.muted}}>Name, email, address details</p></div>
+    <div style={{marginBottom:20}}><h3 style={{fontSize:18,fontWeight:800,marginBottom:4}}>Your Orders</h3><p style={{fontSize:12,color:C.muted}}>Manage your orders · Rating and review · Reorder</p></div>
+    <div style={{marginBottom:20}}><h3 style={{fontSize:18,fontWeight:800,marginBottom:4}}>Your Account</h3><div style={{fontSize:12,color:C.muted}}><p>Change Password</p><p>Payment details</p></div></div>
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>🇬🇧 <span style={{fontSize:13}}>English</span></div>
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:20}}>🇺🇸 <span style={{fontSize:13}}>United States</span></div>
+    <Btn onClick={()=>go("welcome")} style={{background:"#EF4444"}}>Sign Out</Btn>
+  </div>
+</>);
+
+function App() {
+  const [pg,setPg]=useState("welcome"); const [mid,setMid]=useState(null); const [cart,setCart]=useState([]); const [qa,setQa]=useState({});
+  const go=(p,id)=>{if(id)setMid(id);setPg(p)};
+  const meal=MEALS.find(m=>m.id===mid);
+  const S={
+    welcome:<Welcome go={go}/>, signin:<SignIn go={go}/>, signup:<SignUp go={go}/>,
+    home:<Home go={go} cc={cart.length}/>, quizStart:<QuizStart go={go} cc={cart.length}/>,
+    quiz:<Quiz go={go} qa={qa} setQa={setQa} cc={cart.length}/>,
+    quizResults:<QuizResults go={go} qa={qa} cc={cart.length}/>,
+    meals:<Meals go={go} cc={cart.length}/>,
+    mealDetail:<MealDetail go={go} meal={meal} addCart={m=>setCart([...cart,m])} cc={cart.length}/>,
+    customize:<Customize go={go} cc={cart.length}/>,
+    compare:<Compare go={go} cc={cart.length}/>,
+    cart:<Cart go={go} cart={cart} setCart={setCart} cc={cart.length}/>,
+    checkout:<Checkout go={go} cart={cart} cc={cart.length}/>,
+    orderPlaced:<OrderPlaced go={go}/>,
+    profile:<Profile go={go} cc={cart.length}/>,
+  };
+  return <Frame>{S[pg]}</Frame>;
+}
+
+ReactDOM.render(<App/>, document.getElementById("root"));
+</script>
+</body>
+</html>
