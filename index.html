@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shreya Dave | Product Strategist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            plum: {
+              DEFAULT: '#7C3AED',
+              dark: '#5B21B6',
+              deeper: '#4C1D95',
+              light: '#F5F3FF',
+              muted: '#C4B5FD',
+              subtle: '#EDE9FE',
+            },
+            warm: { 50: '#FAFAF9', 100: '#F5F5F4' },
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; color: #1C1917; overflow-x: hidden; }
+
+    /* ============ PAGE LOAD ANIMATIONS ============ */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideRight {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeSlideLeft {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    @keyframes draw-line {
+      from { height: 0; }
+      to { height: 100%; }
+    }
+    @keyframes dot-pop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.3); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes chevron-bounce {
+      0%, 100% { transform: translateY(0) translateX(-50%); opacity: 0.5; }
+      50% { transform: translateY(8px) translateX(-50%); opacity: 1; }
+    }
+    @keyframes badge-pop {
+      0% { opacity: 0; transform: scale(0.5) translateY(10px); }
+      70% { transform: scale(1.05) translateY(-2px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Hero entrance stagger */
+    .hero-label { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; }
+    .hero-title { opacity: 0; animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+    .hero-desc { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+    .hero-badges { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+    .hero-cta { opacity: 0; animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }
+    .hero-photo { opacity: 0; animation: scaleIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+
+    .badge-anim { opacity: 0; animation: badge-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .badge-anim:nth-child(1) { animation-delay: 0.85s; }
+    .badge-anim:nth-child(2) { animation-delay: 0.95s; }
+    .badge-anim:nth-child(3) { animation-delay: 1.05s; }
+    .badge-anim:nth-child(4) { animation-delay: 1.15s; }
+
+    /* ============ SCROLL REVEAL ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible {
+      opacity: 1;
+      transform: translate(0);
+    }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ============ NAV ============ */
+    .nav-glass {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      transition: box-shadow 0.3s;
+    }
+    .nav-glass.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .nav-link {
+      position: relative;
+      color: #57534E;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: #7C3AED; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #7C3AED;
+      border-radius: 1px;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; left: 0; }
+
+    /* ============ BUTTONS ============ */
+    .btn-primary {
+      background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px -5px rgba(124, 58, 237, 0.4);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-secondary {
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      border-color: #C4B5FD;
+      box-shadow: 0 8px 25px -5px rgba(124, 58, 237, 0.1);
+    }
+
+    /* ============ PROJECT CARDS ============ */
+    .project-card {
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 32px 60px -15px rgba(124, 58, 237, 0.12);
+    }
+    .project-card .card-img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-card:hover .card-img { transform: scale(1.06); }
+    .project-card .card-arrow {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+    .project-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ============ TIMELINE ============ */
+    .timeline-track {
+      position: absolute;
+      left: 23px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #EDE9FE;
+      overflow: hidden;
+    }
+    .timeline-track-fill {
+      width: 100%;
+      background: linear-gradient(to bottom, #7C3AED, #C4B5FD);
+      height: 0;
+      transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .timeline-track-fill.animated { height: 100%; }
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #EDE9FE;
+      border: 3px solid white;
+      position: absolute;
+      left: 17px;
+      top: 6px;
+      z-index: 2;
+      transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    }
+    .timeline-dot.active {
+      background: #7C3AED;
+      box-shadow: 0 0 0 5px rgba(124, 58, 237, 0.15);
+      transform: scale(1.1);
+    }
+    .timeline-item {
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ============ TESTIMONIALS ============ */
+    .testimonial-card {
+      background: linear-gradient(160deg, #ffffff 0%, #FAFAF9 100%);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px -10px rgba(124, 58, 237, 0.08);
+    }
+
+    /* ============ LINKS ============ */
+    .link-hover {
+      position: relative;
+      transition: color 0.3s;
+    }
+    .link-hover::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: currentColor;
+      transition: width 0.3s ease;
+    }
+    .link-hover:hover::after { width: 100%; }
+
+    /* ============ PHOTO GLOW ============ */
+    .photo-glow {
+      animation: float 4s ease-in-out infinite;
+    }
+    .photo-glow::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+      z-index: -1;
+    }
+
+    /* ============ COUNTER ============ */
+    .counter-num {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============ SCROLL INDICATOR ============ */
+    .scroll-indicator {
+      animation: chevron-bounce 2s ease-in-out infinite;
+    }
+
+    /* ============ MOBILE MENU ============ */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+
+    /* ============ CERT ICON HOVER ============ */
+    .cert-icon {
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .cert-card:hover .cert-icon {
+      transform: rotate(12deg) scale(1.1);
+      background: #7C3AED;
+      color: white;
+    }
+
+    /* ============ GRAIN ============ */
+
+    /* ============ ABOUT SECTION ============ */
+    /* ============ ABOUT SECTION ============ */
+    .about-fade {
+      opacity: 0;
+      transform: translateX(-15px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .about-fade.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .about-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .about-pill:hover {
+      transform: translateY(-3px) scale(1.03);
+      background: rgba(124, 58, 237, 0.3);
+      box-shadow: 0 8px 25px -5px rgba(124, 58, 237, 0.3);
+    }
+    .about-highlight {
+      color: #C4B5FD;
+      font-weight: 600;
+      position: relative;
+    }
+    .about-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #C4B5FD;
+      border-radius: 1px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .about-highlight.underlined::after { width: 100%; }
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-warm-50">
+
+<!-- ==================== NAV ==================== -->
+<nav id="mainNav" class="fixed top-0 w-full z-50 nav-glass">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="#" class="text-lg font-bold tracking-tight text-gray-900 hover:text-plum transition-colors">SD</a>
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="#projects" class="nav-link text-sm font-medium">Projects</a>
+      <a href="#about" class="nav-link text-sm font-medium">About</a>
+      <a href="#experience" class="nav-link text-sm font-medium">Experience</a>
+      <a href="#testimonials" class="nav-link text-sm font-medium">Testimonials</a>
+      <a href="#contact" class="btn-primary text-white text-sm font-medium px-5 py-2 rounded-full inline-flex items-center">
+        Get in Touch <i class="fas fa-arrow-right ml-2 text-xs"></i>
+      </a>
+    </div>
+    <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-plum transition-colors focus:outline-none">
+      <i class="fas fa-bars text-xl"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="mobile-menu fixed inset-y-0 right-0 w-72 bg-white z-50 shadow-2xl p-8 flex flex-col">
+  <button id="mobileMenuClose" class="self-end text-gray-400 hover:text-gray-600 mb-8 transition-colors"><i class="fas fa-times text-xl"></i></button>
+  <a href="#projects" class="mobile-link text-lg font-medium text-gray-800 py-3 border-b border-gray-100 hover:text-plum transition-colors">Projects</a>
+  <a href="#about" class="mobile-link text-lg font-medium text-gray-800 py-3 border-b border-gray-100 hover:text-plum transition-colors">About</a>
+  <a href="#experience" class="mobile-link text-lg font-medium text-gray-800 py-3 border-b border-gray-100 hover:text-plum transition-colors">Experience</a>
+  <a href="#testimonials" class="mobile-link text-lg font-medium text-gray-800 py-3 border-b border-gray-100 hover:text-plum transition-colors">Testimonials</a>
+  <a href="#contact" class="mt-6 btn-primary text-white text-center font-medium px-5 py-3 rounded-full">Get in Touch</a>
+</div>
+<div id="mobileOverlay" class="fixed inset-0 bg-black/30 z-40 hidden transition-opacity"></div>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero" class="relative min-h-screen flex items-center overflow-hidden grain">
+  <!-- Background decoration -->
+  <div class="absolute top-20 right-0 w-96 h-96 bg-plum/5 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-20 left-0 w-72 h-72 bg-plum-subtle rounded-full blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6 pt-24 pb-16 w-full relative">
+    <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+      <!-- Text column -->
+      <div class="md:w-3/5 text-center md:text-left">
+        <p class="hero-label text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-5">Product Strategist</p>
+        <h1 class="hero-title text-[2.75rem] md:text-6xl lg:text-7xl font-bold text-gray-900 leading-[1.08] mb-6 tracking-tight">
+          Strategy, Systems<br class="hidden md:block"> &amp; Storytelling
+        </h1>
+        <p class="hero-desc text-lg text-stone-500 max-w-md mx-auto md:mx-0 mb-8 leading-relaxed font-light">
+          Hi, I'm Shreya — I build impactful products at the intersection of data, design, and user empathy.
+        </p>
+        <div class="hero-badges flex flex-wrap gap-2 justify-center md:justify-start mb-10">
+          <span class="badge-anim bg-plum-light text-plum-dark px-3.5 py-1.5 rounded-full text-xs font-medium">Product Strategy</span>
+          <span class="badge-anim bg-plum-light text-plum-dark px-3.5 py-1.5 rounded-full text-xs font-medium">Market Intel</span>
+          <span class="badge-anim bg-plum-light text-plum-dark px-3.5 py-1.5 rounded-full text-xs font-medium">Data Analytics</span>
+          <span class="badge-anim bg-plum-light text-plum-dark px-3.5 py-1.5 rounded-full text-xs font-medium">AI Integration</span>
+        </div>
+        <div class="hero-cta flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+          <a href="#projects" class="btn-primary text-white px-7 py-3 rounded-full text-sm font-medium inline-flex items-center justify-center">
+            <i class="fas fa-arrow-down mr-2 text-xs"></i> View My Work
+          </a>
+          <a href="#contact" class="btn-secondary border border-gray-200 text-gray-600 px-7 py-3 rounded-full text-sm font-medium inline-flex items-center justify-center">
+            <i class="fas fa-paper-plane mr-2 text-xs"></i> Say Hello
+          </a>
+        </div>
+      </div>
+
+      <!-- Photo -->
+      <div class="md:w-2/5 flex justify-center">
+        <div class="hero-photo photo-glow relative">
+          <img src="https://raw.githubusercontent.com/Shreyadave3010/Portfolio/main/profile.jpg" alt="Shreya Dave" class="relative rounded-full w-64 h-64 md:w-80 md:h-80 object-cover shadow-xl ring-4 ring-white">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator absolute bottom-8 left-1/2 text-plum-muted">
+    <i class="fas fa-chevron-down text-sm"></i>
+  </div>
+</section>
+
+<!-- ==================== STATS BAR ==================== -->
+<section class="py-12 bg-white border-y border-gray-100">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="reveal">
+        <div class="counter-num text-3xl font-bold text-plum" data-target="5">0</div>
+        <p class="text-sm text-stone-400 mt-1 font-medium">Years Experience</p>
+      </div>
+      <div class="reveal reveal-d1">
+        <div class="counter-num text-3xl font-bold text-plum" data-target="10">0</div>
+        <p class="text-sm text-stone-400 mt-1 font-medium">M+ Users Impacted</p>
+      </div>
+      <div class="reveal reveal-d2">
+        <div class="counter-num text-3xl font-bold text-plum" data-target="100">0</div>
+        <p class="text-sm text-stone-400 mt-1 font-medium">Students Mentored</p>
+      </div>
+      <div class="reveal reveal-d3">
+        <div class="counter-num text-3xl font-bold text-plum" data-target="15">0</div>
+        <p class="text-sm text-stone-400 mt-1 font-medium">Market Players Mapped</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROJECTS ==================== -->
+<section id="projects" class="py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-3">Portfolio</p>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">Selected Projects</h2>
+    </div>
+    <div class="flex justify-center">
+      <!-- Project 1 -->
+      <div class="project-card group bg-warm-50 rounded-2xl overflow-hidden border border-gray-100 reveal max-w-xl w-full">
+        <div class="overflow-hidden relative">
+          <img src="surveymonkey.png" alt="SurveyMonkey Redesign" class="card-img w-full h-56 object-cover object-top">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+        </div>
+        <div class="p-8">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs font-medium text-plum bg-plum-light px-2.5 py-1 rounded-full">UX Redesign</span>
+            <span class="text-xs font-semibold text-plum bg-plum-light px-2.5 py-1 rounded-full">Figma</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">SurveyMonkey Redesign</h3>
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-trophy text-amber-500 text-xs"></i>
+            <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">Top 5 out of 100+ projects — Protothon 4.0, Product Hackathon at Northeastern University</span>
+          </div>
+          <p class="text-sm text-stone-500 mb-6 leading-relaxed">Redesigned the SurveyMonkey app UI with a focus on sentiment-analysis integration, cleaner visual hierarchy, and an intuitive survey-building experience.</p>
+          <div class="flex gap-5">
+            <a href="https://www.figma.com/proto/2oTPLiHfj9HW79zUWqHFdt/FinalSurveyMonkey?type=design&node-id=2-2&t=IffampC5elfLCB4S-0&scaling=min-zoom&page-id=0%3A1" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+              <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> Prototype
+            </a>
+            <a href="https://www.linkedin.com/in/dave-shreya/overlay/1714796868966/single-media-viewer/?profileId=ACoAACKQKSABXDtIYzocsTp225jOn6UMitPJhwg" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+              <i class="fas fa-file-alt mr-1.5 text-xs"></i> Presentation
+            </a>
+            <span class="card-arrow ml-auto text-plum"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="py-24 bg-warm-50">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="reveal">
+      <div class="border-l-4 border-plum pl-8 md:pl-12">
+        <p class="text-sm font-semibold text-plum tracking-[0.2em] uppercase mb-6">About Me</p>
+        <p class="text-xl md:text-2xl text-gray-900 leading-relaxed mb-6 font-medium">
+          I connect dots most people don't see —
+        </p>
+        <div class="space-y-3 mb-8">
+          <p class="text-lg text-stone-500 leading-relaxed about-fade" style="transition-delay: 0.15s">
+            between <span class="text-gray-900 font-medium">data</span> and <span class="text-gray-900 font-medium">design</span>,
+          </p>
+          <p class="text-lg text-stone-500 leading-relaxed about-fade" style="transition-delay: 0.3s">
+            between <span class="text-gray-900 font-medium">engineering</span> and <span class="text-gray-900 font-medium">empathy</span>,
+          </p>
+          <p class="text-lg text-stone-500 leading-relaxed about-fade" style="transition-delay: 0.45s">
+            between what a <span class="text-gray-900 font-medium">market needs</span> and what a <span class="text-gray-900 font-medium">product can become</span>.
+          </p>
+        </div>
+        <p class="text-base text-stone-400 leading-relaxed about-fade" style="transition-delay: 0.6s">
+          Northeastern Grad 🎓 · AI-curious 🤖 · Always looking for the interesting problem in the room ✨
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EXPERIENCE TIMELINE ==================== -->
+<section id="experience" class="py-24 bg-white">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-3">Career</p>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">Professional Journey</h2>
+    </div>
+
+    <div id="timeline" class="relative pl-14">
+      <div class="timeline-track">
+        <div id="timelineFill" class="timeline-track-fill"></div>
+      </div>
+
+      <div class="relative pb-10 timeline-item" data-delay="0">
+        <div class="timeline-dot"></div>
+        <div class="bg-warm-50 rounded-xl p-6 border border-gray-100 ml-4 hover:bg-plum-light/30 transition-colors duration-300">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <img src="northeastern.png" alt="Northeastern" class="h-12 w-12 object-contain rounded">
+            <div class="min-w-0">
+              <h3 class="font-semibold text-gray-900 text-sm">Graduate Teaching Assistant</h3>
+              <p class="text-xs text-stone-400">Northeastern University</p>
+            </div>
+            <span class="sm:ml-auto text-xs font-semibold text-plum bg-plum-light px-3 py-1 rounded-full whitespace-nowrap">Jan 2025 – Dec 2025</span>
+          </div>
+          <p class="text-sm text-stone-500 leading-relaxed">Mentored 100+ students, evaluated assignments and co-designed grading rubrics for Digital Product Design and Management Course.</p>
+        </div>
+      </div>
+
+      <div class="relative pb-10 timeline-item" data-delay="100">
+        <div class="timeline-dot"></div>
+        <div class="bg-warm-50 rounded-xl p-6 border border-gray-100 ml-4 hover:bg-plum-light/30 transition-colors duration-300">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <img src="apmc.png" alt="APMC" class="h-12 w-12 object-contain rounded">
+            <div class="min-w-0">
+              <h3 class="font-semibold text-gray-900 text-sm">Vice President, Content</h3>
+              <p class="text-xs text-stone-400">APMC, Northeastern University</p>
+            </div>
+            <span class="sm:ml-auto text-xs font-semibold text-plum bg-plum-light px-3 py-1 rounded-full whitespace-nowrap">Mar 2025</span>
+          </div>
+          <p class="text-sm text-stone-500 leading-relaxed">Curated panel discussion content for industry product leaders; tripled engagement for Northeastern's flagship product conference, hosting 300+ attendees.</p>
+        </div>
+      </div>
+
+      <div class="relative pb-10 timeline-item" data-delay="200">
+        <div class="timeline-dot"></div>
+        <div class="bg-warm-50 rounded-xl p-6 border border-gray-100 ml-4 hover:bg-plum-light/30 transition-colors duration-300">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <img src="marmon.png" alt="Marmon" class="h-12 w-12 object-contain rounded">
+            <div class="min-w-0">
+              <h3 class="font-semibold text-gray-900 text-sm">Product Manager (Intern)</h3>
+              <p class="text-xs text-stone-400">Marmon Industrial Energy &amp; Infrastructure</p>
+            </div>
+            <span class="sm:ml-auto text-xs font-semibold text-plum bg-plum-light px-3 py-1 rounded-full whitespace-nowrap">Jun 2024 – Dec 2024</span>
+          </div>
+          <p class="text-sm text-stone-500 leading-relaxed">Architected executive-facing product dashboard, researched BESS market identifying 15+ value chain players, and authored the company's first market intelligence report.</p>
+        </div>
+      </div>
+
+      <div class="relative pb-10 timeline-item" data-delay="300">
+        <div class="timeline-dot"></div>
+        <div class="bg-warm-50 rounded-xl p-6 border border-gray-100 ml-4 hover:bg-plum-light/30 transition-colors duration-300">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <img src="accenture.png" alt="Accenture" class="h-12 w-12 object-contain rounded">
+            <div class="min-w-0">
+              <h3 class="font-semibold text-gray-900 text-sm">Senior Product Analyst</h3>
+              <p class="text-xs text-stone-400">Accenture</p>
+            </div>
+            <span class="sm:ml-auto text-xs font-semibold text-plum bg-plum-light px-3 py-1 rounded-full whitespace-nowrap">Dec 2022 – Aug 2023</span>
+          </div>
+          <p class="text-sm text-stone-500 leading-relaxed">Led SAP IS-Utility modules' automation initiatives for a North American Fortune 100 utility client managing diagnostics for 10M+ users.</p>
+        </div>
+      </div>
+
+      <div class="relative pb-10 timeline-item" data-delay="400">
+        <div class="timeline-dot"></div>
+        <div class="bg-warm-50 rounded-xl p-6 border border-gray-100 ml-4 hover:bg-plum-light/30 transition-colors duration-300">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <img src="accenture.png" alt="Accenture" class="h-12 w-12 object-contain rounded">
+            <div class="min-w-0">
+              <h3 class="font-semibold text-gray-900 text-sm">Product Analyst</h3>
+              <p class="text-xs text-stone-400">Accenture</p>
+            </div>
+            <span class="sm:ml-auto text-xs font-semibold text-plum bg-plum-light px-3 py-1 rounded-full whitespace-nowrap">Jun 2021 – Nov 2022</span>
+          </div>
+          <p class="text-sm text-stone-500 leading-relaxed">Reengineered SAP Advanced Metering Infrastructure activation protocols, deployed ABAP-based web services to track faulty meters.</p>
+        </div>
+      </div>
+
+      <div class="relative timeline-item" data-delay="500">
+        <div class="timeline-dot"></div>
+        <div class="bg-warm-50 rounded-xl p-6 border border-gray-100 ml-4 hover:bg-plum-light/30 transition-colors duration-300">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <img src="accenture.png" alt="Accenture" class="h-12 w-12 object-contain rounded">
+            <div class="min-w-0">
+              <h3 class="font-semibold text-gray-900 text-sm">Associate Product Analyst</h3>
+              <p class="text-xs text-stone-400">Accenture</p>
+            </div>
+            <span class="sm:ml-auto text-xs font-semibold text-plum bg-plum-light px-3 py-1 rounded-full whitespace-nowrap">May 2019 – May 2021</span>
+          </div>
+          <p class="text-sm text-stone-500 leading-relaxed">Orchestrated platform migrations and ensured regulatory pricing for large industrial clients.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-16 reveal">
+      <a href="https://drive.google.com/file/d/1_LkPae3wvX3qOpbc5vWtyz1z2T3JYtRo/view?usp=sharing" target="_blank" class="btn-primary text-white px-7 py-3 rounded-full text-sm font-medium inline-flex items-center">
+        <i class="fas fa-download mr-2 text-xs"></i> Download Resume
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section id="testimonials" class="py-24 bg-plum-light/40">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-3">Kind Words</p>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">Testimonials</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="testimonial-card p-8 rounded-2xl border border-gray-100 reveal">
+        <div class="text-plum-muted mb-4"><i class="fas fa-quote-left text-2xl"></i></div>
+        <p class="text-sm text-stone-500 leading-relaxed italic mb-6">"I had the pleasure of working with Shreya Dave, a talented Product Management Intern, who exceeded every expectation during her time with us. From day one, she showcased an impressive ability to dive into a wide variety of projects with minimal direction, delivering outstanding results every time. She played an instrumental role in supporting our team with a range of tasks, including developing a commercialization plan, conducting market research, and helping in the creation of insightful market intelligence reports."</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+          <div class="w-10 h-10 rounded-full bg-plum/10 flex items-center justify-center text-plum text-sm font-bold">SB</div>
+          <div>
+            <h4 class="font-semibold text-gray-900 text-sm">Shawn Brown</h4>
+            <p class="text-xs text-stone-400">Group Product Manager, Marmon IEI</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card p-8 rounded-2xl border border-gray-100 reveal reveal-d1">
+        <div class="text-plum-muted mb-4"><i class="fas fa-quote-left text-2xl"></i></div>
+        <p class="text-sm text-stone-500 leading-relaxed italic mb-6">"In my short time working with Shreya I was able to witness the large impact she had on our team at Marmon IEI. She was able to gather and synthesize information in meaningful ways that helped form strategy around our market plans. Shreya was also able to pool gathered information from the team to generate full professional reports to be consumed by senior leadership. It is clear that she went above and beyond what was required of her during her time at Marmon IEI."</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+          <div class="w-10 h-10 rounded-full bg-plum/10 flex items-center justify-center text-plum text-sm font-bold">RW</div>
+          <div>
+            <h4 class="font-semibold text-gray-900 text-sm">Robert Werk</h4>
+            <p class="text-xs text-stone-400">Product Manager, Marmon IEI</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card p-8 rounded-2xl border border-gray-100 reveal reveal-d2">
+        <div class="text-plum-muted mb-4"><i class="fas fa-quote-left text-2xl"></i></div>
+        <p class="text-sm text-stone-500 leading-relaxed italic mb-6">"I had the pleasure of mentoring Shreya at Accenture, and she's truly exceptional. Her quick grasp of complex concepts, coupled with her strong communication skills, makes her an invaluable asset to any team. Shreya is dedicated, adaptable, and always eager to learn. I highly recommend her for any role she pursues."</p>
+        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+          <div class="w-10 h-10 rounded-full bg-plum/10 flex items-center justify-center text-plum text-sm font-bold">VM</div>
+          <div>
+            <h4 class="font-semibold text-gray-900 text-sm">Vatsal Mehta</h4>
+            <p class="text-xs text-stone-400">Former Manager, Accenture</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LEADERSHIP ==================== -->
+<section id="leadership" class="py-24 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-3">Involvement</p>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">Leadership &amp; Community</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="bg-warm-50 p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-colors duration-300 reveal">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="apmc.png" class="h-14 w-14 object-contain rounded">
+          <h3 class="font-semibold text-gray-900">Speaker, Northstar @ APMC</h3>
+        </div>
+        <p class="text-sm text-stone-500 mb-5 leading-relaxed">Lead learning sessions on UI design and MVP building for aspiring product managers.</p>
+        <a href="https://www.linkedin.com/posts/dave-shreya_northstarbootcamp-productmanagement-learning-activity-7302823217725952000-MMCY?utm_source=share&utm_medium=member_desktop&rcm=ACoAACKQKSABXDtIYzocsTp225jOn6UMitPJhwg" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Session
+        </a>
+      </div>
+      <div class="bg-warm-50 p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-colors duration-300 reveal reveal-d1">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="anitab.png" alt="AnitaB" class="h-14 w-14 object-contain rounded">
+          <h3 class="font-semibold text-gray-900">Scholarship Reviewer @ AnitaB.org</h3>
+        </div>
+        <p class="text-sm text-stone-500 mb-5 leading-relaxed">Evaluated 30+ applications for technical merit and impact, contributing to initiatives that advance women in STEM.</p>
+        <a href="https://anitab.org/" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> Learn More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CERTIFICATIONS ==================== -->
+<section id="certifications" class="py-24 bg-plum-light/40">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="mb-16 reveal">
+      <p class="text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-3">Credentials</p>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">Certifications</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="cert-card bg-white p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-all duration-300 reveal">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="cert-icon bg-plum/10 text-plum p-3 rounded-xl"><i class="fas fa-certificate text-lg"></i></div>
+          <h3 class="font-semibold text-gray-900 text-sm">Data-Driven Product Research and Design</h3>
+        </div>
+        <p class="text-xs text-stone-400 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/b901c588bd53bb1ee3de630db21ae124c49b5a875db646e5b70cd867e61a0a07" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Certificate
+        </a>
+      </div>
+      <div class="cert-card bg-white p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-all duration-300 reveal reveal-d1">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="cert-icon bg-plum/10 text-plum p-3 rounded-xl"><i class="fas fa-certificate text-lg"></i></div>
+          <h3 class="font-semibold text-gray-900 text-sm">Generative AI for Product Managers</h3>
+        </div>
+        <p class="text-xs text-stone-400 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/a9530500f3fc8077b48d2d7ec16dde0ab35f933bfb4f713fc34848e9b1dd368d" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Certificate
+        </a>
+      </div>
+      <div class="cert-card bg-white p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-all duration-300 reveal">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="cert-icon bg-plum/10 text-plum p-3 rounded-xl"><i class="fas fa-certificate text-lg"></i></div>
+          <h3 class="font-semibold text-gray-900 text-sm">Applied AI: Projects That Stack the Best Tools</h3>
+        </div>
+        <p class="text-xs text-stone-400 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/ef43d7e2f7d05aa13c5736b9d8c83a161ffa810e276b0aad8a374b518d9d6d4d?u=74653650" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Certificate
+        </a>
+      </div>
+      <div class="cert-card bg-white p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-all duration-300 reveal reveal-d1">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="cert-icon bg-plum/10 text-plum p-3 rounded-xl"><i class="fas fa-certificate text-lg"></i></div>
+          <h3 class="font-semibold text-gray-900 text-sm">Marketing Strategy: Competitive Intelligence</h3>
+        </div>
+        <p class="text-xs text-stone-400 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/20eb7e92c0beebf51a6a827158579a4286a2c2d2c64be4204317d421532e1767?u=74653650" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Certificate
+        </a>
+      </div>
+      <div class="cert-card bg-white p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-all duration-300 reveal">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="cert-icon bg-plum/10 text-plum p-3 rounded-xl"><i class="fas fa-certificate text-lg"></i></div>
+          <h3 class="font-semibold text-gray-900 text-sm">Project Management Fundamentals</h3>
+        </div>
+        <p class="text-xs text-stone-400 mb-4">IBM SkillsBuild Certification</p>
+        <a href="https://www.credly.com/badges/f30b6649-b110-47ef-a697-20c15e8ad6c7/linked_in_profile" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Certificate
+        </a>
+      </div>
+      <div class="cert-card bg-white p-8 rounded-2xl border border-gray-100 hover:border-plum-muted transition-all duration-300 reveal reveal-d1">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="cert-icon bg-plum/10 text-plum p-3 rounded-xl"><i class="fas fa-certificate text-lg"></i></div>
+          <h3 class="font-semibold text-gray-900 text-sm">AI Agents for Product Leaders</h3>
+        </div>
+        <p class="text-xs text-stone-400 mb-4">LinkedIn Learning Certification</p>
+        <a href="https://www.linkedin.com/learning/certificates/d96a57fcd47e282b83d294ec2ddf44952873c07ea81836eaef30f6d2ea7f6def?u=74653650" target="_blank" class="link-hover text-plum text-sm font-medium inline-flex items-center">
+          <i class="fas fa-external-link-alt mr-1.5 text-xs"></i> View Certificate
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact" class="py-24 bg-white relative grain overflow-hidden">
+  <div class="absolute top-0 right-0 w-80 h-80 bg-plum/5 rounded-full blur-3xl"></div>
+  <div class="max-w-3xl mx-auto px-6 text-center relative">
+    <div class="mb-12 reveal">
+      <p class="text-plum font-semibold text-sm tracking-[0.2em] uppercase mb-3">Contact</p>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">Let's Connect</h2>
+      <p class="text-lg text-stone-400 font-light">Open to collaborations, roles &amp; good conversation.</p>
+    </div>
+    <div class="reveal reveal-d1">
+      <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+        <a href="mailto:dave.shr@northeastern.edu" class="btn-primary text-white px-7 py-3 rounded-full text-sm font-medium inline-flex items-center justify-center">
+          <i class="fas fa-envelope mr-2"></i> Email Me
+        </a>
+        <a href="https://www.linkedin.com/in/dave-shreya/" target="_blank" class="inline-flex items-center bg-[#0A66C2] hover:bg-[#004182] text-white px-7 py-3 rounded-full text-sm font-medium transition-all hover:translate-y-[-2px] hover:shadow-lg justify-center">
+          <i class="fab fa-linkedin-in mr-2"></i> LinkedIn
+        </a>
+      </div>
+      <p class="text-sm text-stone-400"><i class="fas fa-envelope text-plum mr-1.5"></i> dave.shr@northeastern.edu</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="py-8 bg-gray-900 text-gray-400">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm">&copy; 2025 Shreya Dave</p>
+    <div class="flex space-x-5">
+      <a href="https://www.linkedin.com/in/dave-shreya/" target="_blank" class="hover:text-plum-muted transition-colors"><i class="fab fa-linkedin-in"></i></a>
+      <a href="mailto:dave.shr@northeastern.edu" class="hover:text-plum-muted transition-colors"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button id="scrollToTop" class="fixed bottom-8 right-8 btn-primary text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all text-sm">
+  <i class="fas fa-arrow-up text-xs"></i>
+</button>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+  // ---- Scroll Reveal ----
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .about-fade').forEach(el => revealObserver.observe(el));
+
+  // ---- Animated Counters ----
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const start = performance.now();
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round(easeOut(progress) * target) + '+';
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter-num').forEach(el => counterObserver.observe(el));
+
+  // ---- Animated Timeline ----
+  const timelineSection = document.getElementById('timeline');
+  const timelineFill = document.getElementById('timelineFill');
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  const timelineDots = document.querySelectorAll('.timeline-dot');
+
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate the fill line
+        timelineFill.classList.add('animated');
+
+        // Stagger items and dots
+        timelineItems.forEach((item, i) => {
+          setTimeout(() => {
+            item.classList.add('visible');
+            if (timelineDots[i]) {
+              timelineDots[i].classList.add('active');
+            }
+          }, 200 + i * 150);
+        });
+
+        timelineObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  timelineObserver.observe(timelineSection);
+
+  // ---- About section highlights ----
+  const highlightObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const highlights = entry.target.querySelectorAll('.about-highlight');
+        highlights.forEach((el, i) => {
+          setTimeout(() => el.classList.add('underlined'), 300 + i * 250);
+        });
+        highlightObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const aboutSection = document.getElementById('about');
+  if (aboutSection) highlightObserver.observe(aboutSection);
+
+  // ---- Nav scroll effect ----
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.pageYOffset > 50);
+  });
+
+  // ---- Scroll to top ----
+  const scrollBtn = document.getElementById('scrollToTop');
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 400) {
+      scrollBtn.classList.remove('opacity-0', 'invisible');
+      scrollBtn.classList.add('opacity-100');
+    } else {
+      scrollBtn.classList.add('opacity-0', 'invisible');
+      scrollBtn.classList.remove('opacity-100');
+    }
+  });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // ---- Mobile menu ----
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileMenuClose');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  function openMenu() { mobileMenu.classList.add('open'); mobileOverlay.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { mobileMenu.classList.remove('open'); mobileOverlay.classList.add('hidden'); document.body.style.overflow = ''; }
+  mobileBtn.addEventListener('click', openMenu);
+  mobileClose.addEventListener('click', closeMenu);
+  mobileOverlay.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+</script>
+</body>
+</html>
